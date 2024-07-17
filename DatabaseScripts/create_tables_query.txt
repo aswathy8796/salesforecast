@@ -1,0 +1,35 @@
+USE salesforecasting;
+
+CREATE TABLE Orders (
+    OrderId VARCHAR(14) PRIMARY KEY,
+    OrderDate DATE,
+    ShipDate DATE,
+    ShipMode ENUM('First Class','Second Class','Standard Class'),
+    CustomerId VARCHAR(8),
+    CustomerName VARCHAR(200),
+    Segment ENUM('Consumer','Corporate','Home Office'),
+    Country VARCHAR(100),
+    City VARCHAR(100),
+    State VARCHAR(100),
+    PostalCode INT,
+    Region ENUM('East','West','North','South','Central')
+);
+CREATE TABLE Products (
+    ProductID VARCHAR(15) PRIMARY KEY,
+    OrderId VARCHAR(14),
+    Category ENUM('Technology','Furniture','Office Supplies'),
+    SubCategory VARCHAR(50),
+    ProductName TEXT,
+    Sales DECIMAL(10, 2),
+    Quantity INT,
+    Discount DECIMAL(10,2),
+    Profit DECIMAL(10,4),
+    FOREIGN KEY (OrderId) REFERENCES Orders(OrderId)
+);
+
+
+CREATE TABLE OrdersReturns (
+    OrderId VARCHAR(14),
+    Comments TEXT,
+    FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
+);

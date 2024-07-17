@@ -1,0 +1,33 @@
+LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/orders.csv'
+INTO TABLE `salesforecasting`.`orders`
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS; 
+
+
+LOAD DATA INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/products.csv'
+INTO TABLE `salesforecasting`.`products`
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS; 
+
+
+LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/ordersreturns.csv'
+INTO TABLE ordersreturns
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS; 
+
+
+LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/orders.csv'
+INTO TABLE `salesforecasting`.`orders`
+FIELDS TERMINATED BY ',' 
+OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n' 
+IGNORE 1 ROWS
+(`OrderId`, @OrderDate, @ShipDate, `ShipMode`, `CustomerId`, `CustomerName`, `Segment`, `Country`, `City`, `State`, `PostalCode`, `Region`)
+SET `OrderDate` = STR_TO_DATE(@OrderDate, '%d-%m-%Y'),
+    `ShipDate` = STR_TO_DATE(@ShipDate, '%d-%m-%Y');

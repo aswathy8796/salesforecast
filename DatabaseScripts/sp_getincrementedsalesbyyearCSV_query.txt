@@ -1,0 +1,27 @@
+DELIMITER $$
+
+USE `salesforecasting`$$
+
+DROP PROCEDURE IF EXISTS `GetIncrementedSalesByYearCSV`$$
+
+-- To execute procedure
+-- CALL GetIncrementedSalesByYearCSV('2018', '5')
+
+CREATE PROCEDURE GetIncrementedSalesByYearCSV(IN p_year INT, IN p_increment DECIMAL(5, 2))
+BEGIN
+    SELECT 
+        o.State,
+        p_increment AS PercentageIncrease,
+        SUM(p.Sales * (1 + p_increment / 100)) AS IncrementedSales
+    FROM Orders o
+    JOIN Products p ON o.OrderId = p.OrderId
+    WHERE YEAR(o.OrderDate) = p_year
+    GROUP BY o.State
+    ORDER BY o.State
+    INTO OUTFILE 'C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/forcasted_data.csv'
+    FIELDS TERMINATED BY ',' 
+    ENCLOSED BY '"'
+    LINES TERMINATED BY '\n';
+END $$
+
+DELIMITER ;
